@@ -5,7 +5,7 @@ import time
 import threading
 import logging
 
-GRID_SIZE = 16  # Define the grid size
+GRID_SIZE = 80  # Define the grid size
 STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "board_state.json")
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "interactive_draw_mcp.log")
 
@@ -16,7 +16,11 @@ class DrawingGridUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Drawing Grid")
-        self.root.geometry(f"{GRID_SIZE * 40}x{GRID_SIZE * 40 + 50}")
+        # Define base window size
+        window_size = 800  
+        tile_size = window_size // GRID_SIZE
+        
+        self.root.geometry(f"{window_size}x{window_size + 50}")
         
         # Create the grid UI using tiles
         self.tiles = []
@@ -25,7 +29,7 @@ class DrawingGridUI:
         for i in range(GRID_SIZE):
             row = []
             for j in range(GRID_SIZE):
-                canvas = tk.Canvas(root, width=40, height=40, bg="white", highlightthickness=1, highlightbackground="black")
+                canvas = tk.Canvas(root, width=tile_size, height=tile_size, bg="white", highlightthickness=1, highlightbackground="black")
                 canvas.grid(row=i, column=j, padx=1, pady=1)
                 canvas.bind("<Button-1>", lambda event, row=i, col=j: self.toggle_cell(row, col))
                 row.append(canvas)

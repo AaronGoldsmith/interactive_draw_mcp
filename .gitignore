@@ -7,3 +7,6 @@ __pycache__/
 
 # MCP generated
 *.log
+
+# Local state
+src/interactive_draw_mcp/board_state.json

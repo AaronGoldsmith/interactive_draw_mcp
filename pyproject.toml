@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.scripts]
-interactive_draw_mcp = "interactive_draw_mcp:main"
+interactive-draw-mcp = "interactive_draw_mcp:main"
 
 [build-system]
 requires = ["hatchling"]

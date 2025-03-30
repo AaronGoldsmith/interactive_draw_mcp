@@ -40,7 +40,7 @@ This project is an example of a Model Context Protocol (MCP) server with an inte
 Run the server to open the drawing window:
 
 ```
-interactive_draw_mcp
+interactive-draw-mcp
 ```
 
 ### With Goose
@@ -51,7 +51,7 @@ Start Goose with your extension enabled:
 
 ```bash
 # Local Development
-goose session --with-extension "python -m interactive_draw_mcp"
+goose session --with-extension "python -m interactive-draw-mcp"
 ```
 
 ## Tools

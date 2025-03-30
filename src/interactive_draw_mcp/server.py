@@ -8,13 +8,16 @@ from mcp.server.fastmcp import FastMCP
 from mcp.shared.exceptions import McpError
 from mcp.types import ErrorData, INTERNAL_ERROR, INVALID_PARAMS
 
-mcp = FastMCP("interactive-draw")
+mcp = FastMCP(
+    name = "interactive-draw",
+    instructions = "Start a new drawing session if one isn't already open."
+)
 
 # Path to save grid state
 STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "board_state.json")
 
 # Grid size
-GRID_SIZE = 16
+GRID_SIZE = 80
 
 # Default grid state
 DEFAULT_GRID_STATE = {
@@ -125,6 +128,44 @@ def toggle_cell_color(row: int, col: int) -> str:
     save_grid_state(grid_state)
     
     return f"Cell at ({row}, {col}) toggled. Current state: {new_value}"
+
+@mcp.tool()
+def set_multiple_cells(cells: List[Dict[str, int]], color: Optional[str] = "X") -> str:
+    """
+    Set multiple cells in the drawing grid at once.
+    
+    Args:
+        cells: List of dictionaries containing row and col indices, e.g. [{"row": 0, "col": 0}, {"row": 1, "col": 1}]
+        color: Optional color to set (default "X", use " " for erasing)
+    
+    Returns:
+        Confirmation message indicating the cells were set
+    """
+    global grid_state
+    
+    # Reload grid state to ensure we have the latest
+    grid_state = load_grid_state()
+    
+    # Validate input
+    for cell in cells:
+        row = cell.get("row")
+        col = cell.get("col")
+        if not (0 <= row < GRID_SIZE and 0 <= col < GRID_SIZE):
+            raise McpError(
+                ErrorData(
+                    INVALID_PARAMS,
+                    f"Invalid position. Row and column must be between 0 and {GRID_SIZE - 1}."
+                )
+            )
+    
+    # Set all cells
+    for cell in cells:
+        grid_state["grid"][cell["row"]][cell["col"]] = color
+    
+    # Save the updated grid state
+    save_grid_state(grid_state)
+    
+    return f"Set {len(cells)} cells to '{color}'"
 
 @mcp.tool()
 def get_grid_state() -> str:
