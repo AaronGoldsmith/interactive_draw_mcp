@@ -1,0 +1,16 @@
+[project]
+name = "interactive-draw-mcp"
+version = "0.1.0"
+description = "Interactive drawing MCP Server with separate UI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.2.0",
+]
+
+[project.scripts]
+interactive_draw_mcp = "interactive_draw_mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

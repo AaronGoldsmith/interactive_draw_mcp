@@ -1,0 +1,9 @@
+# Local development and build
+dist/
+*venv
+
+# Python generated
+__pycache__/
+
+# MCP generated
+*.log
